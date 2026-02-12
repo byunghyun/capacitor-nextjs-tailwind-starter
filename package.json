@@ -3,24 +3,34 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "kill $(lsof -t -i:3000) 2>/dev/null; true",
     "dev": "next dev",
+    "dev:app": "pnpm predev && CAPACITOR_LIVE_RELOAD=true pnpm dev & wait-on http://localhost:3000 && CAPACITOR_LIVE_RELOAD=true pnpm cap sync && CAPACITOR_LIVE_RELOAD=true pnpm cap run ios && CAPACITOR_LIVE_RELOAD=true pnpm cap run android",
+    "dev:ios": "pnpm predev && CAPACITOR_LIVE_RELOAD=true pnpm dev & wait-on http://localhost:3000 && CAPACITOR_LIVE_RELOAD=true pnpm cap sync && CAPACITOR_LIVE_RELOAD=true pnpm cap run ios",
+    "dev:android": "pnpm predev && CAPACITOR_LIVE_RELOAD=true pnpm dev & wait-on http://localhost:3000 && CAPACITOR_LIVE_RELOAD=true pnpm cap sync && CAPACITOR_LIVE_RELOAD=true pnpm cap run android",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
+    "@capacitor/android": "^8.1.0",
+    "@capacitor/core": "^8.1.0",
+    "@capacitor/ios": "^8.1.0",
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
   "devDependencies": {
+    "@capacitor/cli": "^8.1.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^17.2.4",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wait-on": "^9.0.3"
   }
 }
