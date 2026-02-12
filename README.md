@@ -1,36 +1,109 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Capacitor + Next.js + Tailwind CSS Starter
+
+A minimal starter template for building cross-platform mobile apps with **Next.js 16**, **Capacitor 8**, and **Tailwind CSS 4**. Write your app once with React 19 and deploy to iOS, Android, and the web.
+
+## Tech Stack
+
+- **Next.js 16** - App Router with static export
+- **React 19** - Latest React with concurrent features
+- **Capacitor 8** - Native iOS & Android runtime
+- **Tailwind CSS 4** - Utility-first CSS framework
+- **TypeScript 5** - Type-safe development
+- **pnpm** - Fast, disk space efficient package manager
+
+## Prerequisites
+
+- [Node.js](https://nodejs.org/) (v18+)
+- [pnpm](https://pnpm.io/)
+- [Xcode](https://developer.apple.com/xcode/) (for iOS development)
+- [Android Studio](https://developer.android.com/studio) (for Android development)
 
 ## Getting Started
 
-First, run the development server:
+### 1. Clone and Install
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/byunghyun/capacitor-nextjs-tailwind-starter.git
+cd capacitor-nextjs-tailwind-starter
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Configure Environment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Create a `.env` file in the project root:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```env
+CAPACITOR_LIVE_RELOAD=false
+CAPACITOR_DEV_IP=<your-local-ip>
+CAPACITOR_DEV_PORT=3000
+```
 
-## Learn More
+Replace `<your-local-ip>` with your machine's local IP address (e.g., `192.168.0.10`). This is required for live reload on physical devices.
 
-To learn more about Next.js, take a look at the following resources:
+### 3. Run
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+# Web only
+pnpm dev
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# iOS with live reload
+pnpm dev:ios
 
-## Deploy on Vercel
+# Android with live reload
+pnpm dev:android
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Both iOS and Android
+pnpm dev:app
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Scripts
+
+| Script | Description |
+|---|---|
+| `pnpm dev` | Start Next.js dev server |
+| `pnpm dev:ios` | Launch iOS simulator with live reload |
+| `pnpm dev:android` | Launch Android emulator with live reload |
+| `pnpm dev:app` | Launch both iOS and Android with live reload |
+| `pnpm build` | Build static export to `out/` |
+| `pnpm lint` | Run ESLint |
+
+## Project Structure
+
+```
+├── app/                # Next.js App Router pages
+│   ├── layout.tsx      # Root layout
+│   ├── page.tsx        # Home page
+│   └── globals.css     # Global styles (Tailwind)
+├── android/            # Android native project
+├── ios/                # iOS native project
+├── out/                # Static export output (build artifact)
+├── public/             # Static assets
+├── capacitor.config.ts # Capacitor configuration
+├── next.config.ts      # Next.js configuration
+├── tsconfig.json       # TypeScript configuration
+└── postcss.config.mjs  # PostCSS + Tailwind setup
+```
+
+## How It Works
+
+1. Next.js is configured with `output: 'export'` to generate a fully static site in the `out/` directory
+2. Capacitor uses the `out/` directory as its `webDir` to bundle the static site into native apps
+3. During development, live reload connects the native app to the Next.js dev server via your local IP
+
+## Building for Production
+
+```bash
+# Build the static export
+pnpm build
+
+# Sync with native projects
+npx cap sync
+
+# Open in Xcode / Android Studio
+npx cap open ios
+npx cap open android
+```
+
+## License
+
+MIT
